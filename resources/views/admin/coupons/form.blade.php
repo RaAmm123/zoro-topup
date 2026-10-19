@@ -1,0 +1,10 @@
+@extends('layouts.app')
+@section('title', $coupon->exists?'Edit Coupon':'Create Coupon')
+@section('content')
+<div class="mx-auto max-w-xl px-4 py-8"><h1 class="text-2xl font-black">{{ $coupon->exists?'Edit coupon':'Create coupon' }}</h1><form class="mt-5 rounded-2xl border bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900" method="POST" action="{{ $coupon->exists?route('admin.coupons.update',$coupon):route('admin.coupons.store') }}">@csrf @if($coupon->exists)@method('PUT')@endif
+<label class="mt-3 block text-sm font-semibold">Code</label><input name="code" value="{{ old('code',$coupon->code) }}" required class="mt-1 w-full rounded-xl border px-3 py-2 uppercase dark:border-zinc-700 dark:bg-zinc-950">
+<label class="mt-3 block text-sm font-semibold">Discount type</label><select name="discount_type" class="mt-1 w-full rounded-xl border px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"><option value="percentage" @selected(old('discount_type',$coupon->discount_type)==='percentage')>Percentage</option><option value="fixed" @selected(old('discount_type',$coupon->discount_type)==='fixed')>Fixed USD</option></select>
+@foreach(['discount_value'=>'Discount value','max_uses'=>'Maximum uses'] as $field=>$label)<label class="mt-3 block text-sm font-semibold">{{ $label }}</label><input name="{{ $field }}" type="number" step="0.01" value="{{ old($field,$coupon->$field) }}" class="mt-1 w-full rounded-xl border px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950">@endforeach
+<label class="mt-3 block text-sm font-semibold">Expires at</label><input name="expires_at" type="datetime-local" value="{{ old('expires_at',$coupon->expires_at?->format('Y-m-d\TH:i')) }}" class="mt-1 w-full rounded-xl border px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950">
+<label class="mt-4 flex items-center gap-2 text-sm"><input type="checkbox" name="is_active" value="1" @checked(old('is_active',$coupon->is_active ?? true))> Active</label><button class="mt-5 rounded-xl bg-amber-400 px-4 py-3 font-bold text-zinc-950">Save coupon</button></form></div>
+@endsection
