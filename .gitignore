@@ -6,3 +6,13 @@
 /public/build/
 /public/hot
 /storage/*.key
+
+# Local certificates and secrets
+/certs/
+
+# Laravel generated files
+/bootstrap/cache/*.php
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
