@@ -1,7 +1,7 @@
 ﻿FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev libicu-dev \
+    git unzip libzip-dev libicu-dev libonig-dev \
     && docker-php-ext-install pdo_mysql mbstring bcmath intl zip \
     && a2enmod rewrite headers \
     && rm -rf /var/lib/apt/lists/*
@@ -33,3 +33,4 @@ RUN printf '%s\n' \
 EXPOSE 80
 
 CMD ["sh", "-c", "mkdir -p /var/www/html/certs && if [ -n \"$TIDB_CA_BASE64\" ]; then printf '%s' \"$TIDB_CA_BASE64\" | base64 -d > /var/www/html/certs/tidb-ca.pem; fi && test -s /var/www/html/certs/tidb-ca.pem && exec apache2-foreground"]
+
